@@ -143,4 +143,65 @@
       <material>Gazebo/${color}</material>
     </gazebo>
   </xacro:macro>
+
+  <xacro:macro name="vertical_cable" params="robot_namespace parent number_of_links link_length link_radius link_mass start_link:=0 *origin *link_inertia">
+    
+    <joint name="${robot_namespace}/cable_joint_${start_link}a" type="continuous">
+      <xacro:insert_block name="origin" />
+      <axis xyz="1 0 0" />
+      <!-- <dynamics damping="0.01"/> -->
+      <parent link="${parent}" />
+      <child link="${robot_namespace}/cable_link_${start_link}a" />
+    </joint>
+
+    <link name="${robot_namespace}/cable_link_${start_link}a">
+      <inertial>
+        <mass value="${link_mass}"/>
+        <xacro:insert_block name="link_inertia" />
+      </inertial>
+    </link>
+
+    <joint name="${robot_namespace}/cable_joint_${start_link}b" type="continuous">
+      <axis xyz="0 1 0" />
+      <parent link="${robot_namespace}/cable_link_${start_link}a" />
+      <child link="${robot_namespace}/cable_link_${start_link}b" />
+      <!-- <dynamics damping="0.01"/> -->
+    </joint>
+
+    <link name="${robot_namespace}/cable_link_${start_link}b">
+      <origin xyz="0 0 ${-link_length/2}"/>
+      <inertial>
+        <mass value="${link_mass}"/>
+        <xacro:insert_block name="link_inertia" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 ${-link_length/2}"/>
+        <geometry>
+          <cylinder length="${link_length}" radius="${link_radius}"/>
+        </geometry>
+      </visual>
+        <collision>
+          <geometry>
+            <cylinder length="${link_length}" radius="${link_radius}"/>
+          </geometry>
+        </collision>
+    </link>
+
+    <!-- <xacro:if value="${number_of_links > 1}">
+        <xacro:cable 
+          robot_namespace="${robot_namespace}"
+          suffix="${suffix}"
+          number_of_links="${number_of_links-1}"
+          link_length="${link_length}"
+          link_radius="${link_radius}"
+          link_mass="${link_mass}"
+          <origin xyz="0 ${arm_length} ${rotor_offset_top}" rpy="0 0 0" />
+          xacro:insert_block name="rotor_inertia" />
+          *origin="${robot_namespace}"
+          *link_inertia="${robot_namespace}"
+          start_link="${start_link+1}" />
+    </xacro:if> -->
+
+  </xacro:macro>    
+
 </robot>

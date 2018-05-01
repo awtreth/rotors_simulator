@@ -144,12 +144,34 @@
     </gazebo>
   </xacro:macro>
 
-  <xacro:macro name="vertical_cable" params="robot_namespace parent number_of_links link_length link_radius link_mass start_link:=0 *origin *link_inertia">
-    
-    <joint name="${robot_namespace}/cable_joint_${start_link}a" type="continuous">
+  <xacro:macro name="ball_joint" params="robot_namespace name parent child damping:=0.0 *origin">
+    <joint name="${robot_namespace}/${name}_aux" type="continuous">
       <xacro:insert_block name="origin" />
       <axis xyz="1 0 0" />
-      <!-- <dynamics damping="0.01"/> -->
+      <dynamics damping="${damping}"/>
+      <parent link="${parent}" />
+      <child link="${robot_namespace}/${name}_link" />
+    </joint>
+    <link name="${robot_namespace}/${name}_link">
+      <inertial>
+        <mass value="${1e-5}"/>
+        <inertia ixx="1e-10" ixy="0" ixz="0" iyy="1e-10" iyz="0" izz="1e-10" />
+      </inertial>
+    </link>
+    <joint name="${robot_namespace}/${name}" type="continuous">
+      <axis xyz="0 1 0" />
+      <dynamics damping="${damping}"/>
+      <parent link="${robot_namespace}/${name}_link" />
+      <child link="${child}" />
+    </joint>
+  </xacro:macro>
+  
+
+  <xacro:macro name="suspended_load" params="robot_namespace parent number_of_links link_length link_radius link_mass start_link:=0 load_link_name *origin *link_inertia *load_link">
+    
+    <!-- <joint name="${robot_namespace}/cable_joint_${start_link}a" type="continuous">
+      <xacro:insert_block name="origin" />
+      <axis xyz="1 0 0" />
       <parent link="${parent}" />
       <child link="${robot_namespace}/cable_link_${start_link}a" />
     </joint>
@@ -165,10 +187,15 @@
       <axis xyz="0 1 0" />
       <parent link="${robot_namespace}/cable_link_${start_link}a" />
       <child link="${robot_namespace}/cable_link_${start_link}b" />
-      <!-- <dynamics damping="0.01"/> -->
-    </joint>
+    </joint> -->
 
-    <link name="${robot_namespace}/cable_link_${start_link}b">
+    <xacro:ball_joint robot_namespace="${robot_namespace}" name="cable_joint_${start_link}"
+                      parent="${parent}" child="${robot_namespace}/cable_link_${start_link}">
+      <xacro:insert_block name="origin"/>
+    </xacro:ball_joint>
+
+
+    <link name="${robot_namespace}/cable_link_${start_link}">
       <origin xyz="0 0 ${-link_length/2}"/>
       <inertial>
         <mass value="${link_mass}"/>
@@ -180,27 +207,41 @@
           <cylinder length="${link_length}" radius="${link_radius}"/>
         </geometry>
       </visual>
-        <collision>
+        <!-- <collision>
           <geometry>
             <cylinder length="${link_length}" radius="${link_radius}"/>
           </geometry>
-        </collision>
+        </collision> -->
     </link>
 
-    <!-- <xacro:if value="${number_of_links > 1}">
-        <xacro:cable 
+    <xacro:if value="${number_of_links > 1}">
+        <xacro:suspended_load 
           robot_namespace="${robot_namespace}"
-          suffix="${suffix}"
+          parent="${robot_namespace}/cable_link_${start_link}"
           number_of_links="${number_of_links-1}"
           link_length="${link_length}"
           link_radius="${link_radius}"
           link_mass="${link_mass}"
-          <origin xyz="0 ${arm_length} ${rotor_offset_top}" rpy="0 0 0" />
-          xacro:insert_block name="rotor_inertia" />
-          *origin="${robot_namespace}"
-          *link_inertia="${robot_namespace}"
-          start_link="${start_link+1}" />
-    </xacro:if> -->
+          load_link_name="${load_link_name}"
+          start_link="${start_link+1}" >
+
+          <origin xyz="0 0 ${-link_length}" />
+          <xacro:insert_block name="link_inertia" />
+          <xacro:insert_block name="load_link" />
+        </xacro:suspended_load>
+    </xacro:if>
+    <xacro:unless value="${number_of_links > 1}">
+      <xacro:ball_joint robot_namespace="${robot_namespace}" name="load_cable_joint"
+                      parent="${robot_namespace}/cable_link_${start_link}" child="${load_link_name}">
+        <origin xyz="0 0 ${-link_length}"/>
+      </xacro:ball_joint>
+      <!-- <joint name="${namespace}/cable_load_joint" type="fixed">
+        <origin xyz="0 0 ${-link_length}"/>
+        <parent link="${robot_namespace}/cable_link_${start_link}b" />
+        <child link="${load_link_name}" />
+      </joint> -->
+      <xacro:insert_block name="load_link" />
+    </xacro:unless>
 
   </xacro:macro>    
 

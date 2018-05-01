@@ -198,27 +198,21 @@
     <xacro:insert_block name="rotor_inertia" />
   </xacro:vertical_rotor>
 
-  <xacro:vertical_cable
+  <xacro:suspended_load
     robot_namespace="${namespace}"
     parent="${namespace}/base_link"
-    number_of_links="1"
-    link_length="0.5"
+    number_of_links="10"
+    link_length="0.1"
     link_radius="0.005"
-    link_mass="0.001">
+    link_mass="0.001"
+    load_link_name="${namespace}/load_link">
+
     <origin xyz="0 0 0" rpy="0 0 0" />
     <inertia ixx="5e-6" ixy="0.0" ixz="0.0" iyy="5e-6" iyz="0.0" izz="5e-6" />
-  </xacro:vertical_cable>
-
-  <joint name="${namespace}/cable_load_joint" type="fixed">
-    <origin xyz="0 0 -0.5"/>
-    <parent link="${namespace}/cable_link_0b" />
-    <child link="${namespace}/cable_load_link" />
-  </joint>
-
-    <link name="${namespace}/cable_load_link">
+    <link name="${namespace}/load_link">
       <inertial>
         <mass value="0.2"/>
-        <inertia ixx="0.0002" ixy="0.0002" ixz="0.0002" iyy="0.0002" iyz="0.0" izz="0.0002" />
+        <inertia ixx="0.0002" ixy="0.0" ixz="0.0" iyy="0.0002" iyz="0.0" izz="0.0002" />
       </inertial>
       <visual>
         <geometry>
@@ -231,5 +225,6 @@
           </geometry>
         </collision> -->
     </link>
+  </xacro:suspended_load>
 
 </robot>

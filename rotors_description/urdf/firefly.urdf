@@ -358,63 +358,591 @@
   <gazebo reference="firefly/rotor_5">
     <material>Gazebo/Red</material>
   </gazebo>
-  <joint name="firefly/cable_joint_0a" type="continuous">
+  <!-- <joint name="${robot_namespace}/cable_joint_${start_link}a" type="continuous">
+      <xacro:insert_block name="origin" />
+      <axis xyz="1 0 0" />
+      <parent link="${parent}" />
+      <child link="${robot_namespace}/cable_link_${start_link}a" />
+    </joint>
+
+    <link name="${robot_namespace}/cable_link_${start_link}a">
+      <inertial>
+        <mass value="${link_mass}"/>
+        <xacro:insert_block name="link_inertia" />
+      </inertial>
+    </link>
+
+    <joint name="${robot_namespace}/cable_joint_${start_link}b" type="continuous">
+      <axis xyz="0 1 0" />
+      <parent link="${robot_namespace}/cable_link_${start_link}a" />
+      <child link="${robot_namespace}/cable_link_${start_link}b" />
+    </joint> -->
+  <joint name="firefly/cable_joint_0_aux" type="continuous">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <!-- <dynamics damping="0.01"/> -->
+    <dynamics damping="0.0"/>
     <parent link="firefly/base_link"/>
-    <child link="firefly/cable_link_0a"/>
+    <child link="firefly/cable_joint_0_link"/>
   </joint>
-  <link name="firefly/cable_link_0a">
+  <link name="firefly/cable_joint_0_link">
     <inertial>
-      <mass value="0.001"/>
-      <inertia ixx="5e-6" ixy="0.0" ixz="0.0" iyy="5e-6" iyz="0.0" izz="5e-6"/>
+      <mass value="1e-14"/>
+      <inertia ixx="1e-14" ixy="0" ixz="0" iyy="1e-14" iyz="0" izz="1e-14"/>
     </inertial>
   </link>
-  <joint name="firefly/cable_joint_0b" type="continuous">
+  <joint name="firefly/cable_joint_0" type="continuous">
     <axis xyz="0 1 0"/>
-    <parent link="firefly/cable_link_0a"/>
-    <child link="firefly/cable_link_0b"/>
-    <!-- <dynamics damping="0.01"/> -->
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_joint_0_link"/>
+    <child link="firefly/cable_link_0"/>
   </joint>
-  <link name="firefly/cable_link_0b">
-    <origin xyz="0 0 -0.25"/>
+  <link name="firefly/cable_link_0">
+    <origin xyz="0 0 -0.05"/>
     <inertial>
-      <mass value="0.001"/>
+      <mass value="0.0005"/>
       <inertia ixx="5e-6" ixy="0.0" ixz="0.0" iyy="5e-6" iyz="0.0" izz="5e-6"/>
     </inertial>
     <visual>
-      <origin xyz="0 0 -0.25"/>
+      <origin xyz="0 0 -0.05"/>
       <geometry>
-        <cylinder length="0.5" radius="0.005"/>
+        <cylinder length="0.1" radius="0.005"/>
       </geometry>
     </visual>
-    <collision>
-      <geometry>
-        <cylinder length="0.5" radius="0.005"/>
-      </geometry>
-    </collision>
+    <!-- <collision>
+          <geometry>
+            <cylinder length="${link_length}" radius="${link_radius}"/>
+          </geometry>
+        </collision> -->
   </link>
-  <!-- <xacro:if value="${number_of_links > 1}">
-        <xacro:cable 
-          robot_namespace="${robot_namespace}"
-          suffix="${suffix}"
-          number_of_links="${number_of_links-1}"
-          link_length="${link_length}"
-          link_radius="${link_radius}"
-          link_mass="${link_mass}"
-          <origin xyz="0 ${arm_length} ${rotor_offset_top}" rpy="0 0 0" />
-          xacro:insert_block name="rotor_inertia" />
-          *origin="${robot_namespace}"
-          *link_inertia="${robot_namespace}"
-          start_link="${start_link+1}" />
-    </xacro:if> -->
-  <joint name="firefly/cable_load_joint" type="fixed">
-    <origin xyz="0 0 -0.5"/>
-    <parent link="firefly/cable_link_0b"/>
-    <child link="firefly/cable_load_link"/>
+  <!-- <joint name="${robot_namespace}/cable_joint_${start_link}a" type="continuous">
+      <xacro:insert_block name="origin" />
+      <axis xyz="1 0 0" />
+      <parent link="${parent}" />
+      <child link="${robot_namespace}/cable_link_${start_link}a" />
+    </joint>
+
+    <link name="${robot_namespace}/cable_link_${start_link}a">
+      <inertial>
+        <mass value="${link_mass}"/>
+        <xacro:insert_block name="link_inertia" />
+      </inertial>
+    </link>
+
+    <joint name="${robot_namespace}/cable_joint_${start_link}b" type="continuous">
+      <axis xyz="0 1 0" />
+      <parent link="${robot_namespace}/cable_link_${start_link}a" />
+      <child link="${robot_namespace}/cable_link_${start_link}b" />
+    </joint> -->
+  <joint name="firefly/cable_joint_1_aux" type="continuous">
+    <origin xyz="0 0 -0.1"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_link_0"/>
+    <child link="firefly/cable_joint_1_link"/>
   </joint>
-  <link name="firefly/cable_load_link">
+  <link name="firefly/cable_joint_1_link">
+    <inertial>
+      <mass value="1e-14"/>
+      <inertia ixx="1e-14" ixy="0" ixz="0" iyy="1e-14" iyz="0" izz="1e-14"/>
+    </inertial>
+  </link>
+  <joint name="firefly/cable_joint_1" type="continuous">
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_joint_1_link"/>
+    <child link="firefly/cable_link_1"/>
+  </joint>
+  <link name="firefly/cable_link_1">
+    <origin xyz="0 0 -0.05"/>
+    <inertial>
+      <mass value="0.0005"/>
+      <inertia ixx="5e-6" ixy="0.0" ixz="0.0" iyy="5e-6" iyz="0.0" izz="5e-6"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.05"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.005"/>
+      </geometry>
+    </visual>
+    <!-- <collision>
+          <geometry>
+            <cylinder length="${link_length}" radius="${link_radius}"/>
+          </geometry>
+        </collision> -->
+  </link>
+  <!-- <joint name="${robot_namespace}/cable_joint_${start_link}a" type="continuous">
+      <xacro:insert_block name="origin" />
+      <axis xyz="1 0 0" />
+      <parent link="${parent}" />
+      <child link="${robot_namespace}/cable_link_${start_link}a" />
+    </joint>
+
+    <link name="${robot_namespace}/cable_link_${start_link}a">
+      <inertial>
+        <mass value="${link_mass}"/>
+        <xacro:insert_block name="link_inertia" />
+      </inertial>
+    </link>
+
+    <joint name="${robot_namespace}/cable_joint_${start_link}b" type="continuous">
+      <axis xyz="0 1 0" />
+      <parent link="${robot_namespace}/cable_link_${start_link}a" />
+      <child link="${robot_namespace}/cable_link_${start_link}b" />
+    </joint> -->
+  <joint name="firefly/cable_joint_2_aux" type="continuous">
+    <origin xyz="0 0 -0.1"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_link_1"/>
+    <child link="firefly/cable_joint_2_link"/>
+  </joint>
+  <link name="firefly/cable_joint_2_link">
+    <inertial>
+      <mass value="1e-14"/>
+      <inertia ixx="1e-14" ixy="0" ixz="0" iyy="1e-14" iyz="0" izz="1e-14"/>
+    </inertial>
+  </link>
+  <joint name="firefly/cable_joint_2" type="continuous">
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_joint_2_link"/>
+    <child link="firefly/cable_link_2"/>
+  </joint>
+  <link name="firefly/cable_link_2">
+    <origin xyz="0 0 -0.05"/>
+    <inertial>
+      <mass value="0.0005"/>
+      <inertia ixx="5e-6" ixy="0.0" ixz="0.0" iyy="5e-6" iyz="0.0" izz="5e-6"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.05"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.005"/>
+      </geometry>
+    </visual>
+    <!-- <collision>
+          <geometry>
+            <cylinder length="${link_length}" radius="${link_radius}"/>
+          </geometry>
+        </collision> -->
+  </link>
+  <!-- <joint name="${robot_namespace}/cable_joint_${start_link}a" type="continuous">
+      <xacro:insert_block name="origin" />
+      <axis xyz="1 0 0" />
+      <parent link="${parent}" />
+      <child link="${robot_namespace}/cable_link_${start_link}a" />
+    </joint>
+
+    <link name="${robot_namespace}/cable_link_${start_link}a">
+      <inertial>
+        <mass value="${link_mass}"/>
+        <xacro:insert_block name="link_inertia" />
+      </inertial>
+    </link>
+
+    <joint name="${robot_namespace}/cable_joint_${start_link}b" type="continuous">
+      <axis xyz="0 1 0" />
+      <parent link="${robot_namespace}/cable_link_${start_link}a" />
+      <child link="${robot_namespace}/cable_link_${start_link}b" />
+    </joint> -->
+  <joint name="firefly/cable_joint_3_aux" type="continuous">
+    <origin xyz="0 0 -0.1"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_link_2"/>
+    <child link="firefly/cable_joint_3_link"/>
+  </joint>
+  <link name="firefly/cable_joint_3_link">
+    <inertial>
+      <mass value="1e-14"/>
+      <inertia ixx="1e-14" ixy="0" ixz="0" iyy="1e-14" iyz="0" izz="1e-14"/>
+    </inertial>
+  </link>
+  <joint name="firefly/cable_joint_3" type="continuous">
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_joint_3_link"/>
+    <child link="firefly/cable_link_3"/>
+  </joint>
+  <link name="firefly/cable_link_3">
+    <origin xyz="0 0 -0.05"/>
+    <inertial>
+      <mass value="0.0005"/>
+      <inertia ixx="5e-6" ixy="0.0" ixz="0.0" iyy="5e-6" iyz="0.0" izz="5e-6"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.05"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.005"/>
+      </geometry>
+    </visual>
+    <!-- <collision>
+          <geometry>
+            <cylinder length="${link_length}" radius="${link_radius}"/>
+          </geometry>
+        </collision> -->
+  </link>
+  <!-- <joint name="${robot_namespace}/cable_joint_${start_link}a" type="continuous">
+      <xacro:insert_block name="origin" />
+      <axis xyz="1 0 0" />
+      <parent link="${parent}" />
+      <child link="${robot_namespace}/cable_link_${start_link}a" />
+    </joint>
+
+    <link name="${robot_namespace}/cable_link_${start_link}a">
+      <inertial>
+        <mass value="${link_mass}"/>
+        <xacro:insert_block name="link_inertia" />
+      </inertial>
+    </link>
+
+    <joint name="${robot_namespace}/cable_joint_${start_link}b" type="continuous">
+      <axis xyz="0 1 0" />
+      <parent link="${robot_namespace}/cable_link_${start_link}a" />
+      <child link="${robot_namespace}/cable_link_${start_link}b" />
+    </joint> -->
+  <joint name="firefly/cable_joint_4_aux" type="continuous">
+    <origin xyz="0 0 -0.1"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_link_3"/>
+    <child link="firefly/cable_joint_4_link"/>
+  </joint>
+  <link name="firefly/cable_joint_4_link">
+    <inertial>
+      <mass value="1e-14"/>
+      <inertia ixx="1e-14" ixy="0" ixz="0" iyy="1e-14" iyz="0" izz="1e-14"/>
+    </inertial>
+  </link>
+  <joint name="firefly/cable_joint_4" type="continuous">
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_joint_4_link"/>
+    <child link="firefly/cable_link_4"/>
+  </joint>
+  <link name="firefly/cable_link_4">
+    <origin xyz="0 0 -0.05"/>
+    <inertial>
+      <mass value="0.0005"/>
+      <inertia ixx="5e-6" ixy="0.0" ixz="0.0" iyy="5e-6" iyz="0.0" izz="5e-6"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.05"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.005"/>
+      </geometry>
+    </visual>
+    <!-- <collision>
+          <geometry>
+            <cylinder length="${link_length}" radius="${link_radius}"/>
+          </geometry>
+        </collision> -->
+  </link>
+  <!-- <joint name="${robot_namespace}/cable_joint_${start_link}a" type="continuous">
+      <xacro:insert_block name="origin" />
+      <axis xyz="1 0 0" />
+      <parent link="${parent}" />
+      <child link="${robot_namespace}/cable_link_${start_link}a" />
+    </joint>
+
+    <link name="${robot_namespace}/cable_link_${start_link}a">
+      <inertial>
+        <mass value="${link_mass}"/>
+        <xacro:insert_block name="link_inertia" />
+      </inertial>
+    </link>
+
+    <joint name="${robot_namespace}/cable_joint_${start_link}b" type="continuous">
+      <axis xyz="0 1 0" />
+      <parent link="${robot_namespace}/cable_link_${start_link}a" />
+      <child link="${robot_namespace}/cable_link_${start_link}b" />
+    </joint> -->
+  <joint name="firefly/cable_joint_5_aux" type="continuous">
+    <origin xyz="0 0 -0.1"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_link_4"/>
+    <child link="firefly/cable_joint_5_link"/>
+  </joint>
+  <link name="firefly/cable_joint_5_link">
+    <inertial>
+      <mass value="1e-14"/>
+      <inertia ixx="1e-14" ixy="0" ixz="0" iyy="1e-14" iyz="0" izz="1e-14"/>
+    </inertial>
+  </link>
+  <joint name="firefly/cable_joint_5" type="continuous">
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_joint_5_link"/>
+    <child link="firefly/cable_link_5"/>
+  </joint>
+  <link name="firefly/cable_link_5">
+    <origin xyz="0 0 -0.05"/>
+    <inertial>
+      <mass value="0.0005"/>
+      <inertia ixx="5e-6" ixy="0.0" ixz="0.0" iyy="5e-6" iyz="0.0" izz="5e-6"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.05"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.005"/>
+      </geometry>
+    </visual>
+    <!-- <collision>
+          <geometry>
+            <cylinder length="${link_length}" radius="${link_radius}"/>
+          </geometry>
+        </collision> -->
+  </link>
+  <!-- <joint name="${robot_namespace}/cable_joint_${start_link}a" type="continuous">
+      <xacro:insert_block name="origin" />
+      <axis xyz="1 0 0" />
+      <parent link="${parent}" />
+      <child link="${robot_namespace}/cable_link_${start_link}a" />
+    </joint>
+
+    <link name="${robot_namespace}/cable_link_${start_link}a">
+      <inertial>
+        <mass value="${link_mass}"/>
+        <xacro:insert_block name="link_inertia" />
+      </inertial>
+    </link>
+
+    <joint name="${robot_namespace}/cable_joint_${start_link}b" type="continuous">
+      <axis xyz="0 1 0" />
+      <parent link="${robot_namespace}/cable_link_${start_link}a" />
+      <child link="${robot_namespace}/cable_link_${start_link}b" />
+    </joint> -->
+  <joint name="firefly/cable_joint_6_aux" type="continuous">
+    <origin xyz="0 0 -0.1"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_link_5"/>
+    <child link="firefly/cable_joint_6_link"/>
+  </joint>
+  <link name="firefly/cable_joint_6_link">
+    <inertial>
+      <mass value="1e-14"/>
+      <inertia ixx="1e-14" ixy="0" ixz="0" iyy="1e-14" iyz="0" izz="1e-14"/>
+    </inertial>
+  </link>
+  <joint name="firefly/cable_joint_6" type="continuous">
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_joint_6_link"/>
+    <child link="firefly/cable_link_6"/>
+  </joint>
+  <link name="firefly/cable_link_6">
+    <origin xyz="0 0 -0.05"/>
+    <inertial>
+      <mass value="0.0005"/>
+      <inertia ixx="5e-6" ixy="0.0" ixz="0.0" iyy="5e-6" iyz="0.0" izz="5e-6"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.05"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.005"/>
+      </geometry>
+    </visual>
+    <!-- <collision>
+          <geometry>
+            <cylinder length="${link_length}" radius="${link_radius}"/>
+          </geometry>
+        </collision> -->
+  </link>
+  <!-- <joint name="${robot_namespace}/cable_joint_${start_link}a" type="continuous">
+      <xacro:insert_block name="origin" />
+      <axis xyz="1 0 0" />
+      <parent link="${parent}" />
+      <child link="${robot_namespace}/cable_link_${start_link}a" />
+    </joint>
+
+    <link name="${robot_namespace}/cable_link_${start_link}a">
+      <inertial>
+        <mass value="${link_mass}"/>
+        <xacro:insert_block name="link_inertia" />
+      </inertial>
+    </link>
+
+    <joint name="${robot_namespace}/cable_joint_${start_link}b" type="continuous">
+      <axis xyz="0 1 0" />
+      <parent link="${robot_namespace}/cable_link_${start_link}a" />
+      <child link="${robot_namespace}/cable_link_${start_link}b" />
+    </joint> -->
+  <joint name="firefly/cable_joint_7_aux" type="continuous">
+    <origin xyz="0 0 -0.1"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_link_6"/>
+    <child link="firefly/cable_joint_7_link"/>
+  </joint>
+  <link name="firefly/cable_joint_7_link">
+    <inertial>
+      <mass value="1e-14"/>
+      <inertia ixx="1e-14" ixy="0" ixz="0" iyy="1e-14" iyz="0" izz="1e-14"/>
+    </inertial>
+  </link>
+  <joint name="firefly/cable_joint_7" type="continuous">
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_joint_7_link"/>
+    <child link="firefly/cable_link_7"/>
+  </joint>
+  <link name="firefly/cable_link_7">
+    <origin xyz="0 0 -0.05"/>
+    <inertial>
+      <mass value="0.0005"/>
+      <inertia ixx="5e-6" ixy="0.0" ixz="0.0" iyy="5e-6" iyz="0.0" izz="5e-6"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.05"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.005"/>
+      </geometry>
+    </visual>
+    <!-- <collision>
+          <geometry>
+            <cylinder length="${link_length}" radius="${link_radius}"/>
+          </geometry>
+        </collision> -->
+  </link>
+  <!-- <joint name="${robot_namespace}/cable_joint_${start_link}a" type="continuous">
+      <xacro:insert_block name="origin" />
+      <axis xyz="1 0 0" />
+      <parent link="${parent}" />
+      <child link="${robot_namespace}/cable_link_${start_link}a" />
+    </joint>
+
+    <link name="${robot_namespace}/cable_link_${start_link}a">
+      <inertial>
+        <mass value="${link_mass}"/>
+        <xacro:insert_block name="link_inertia" />
+      </inertial>
+    </link>
+
+    <joint name="${robot_namespace}/cable_joint_${start_link}b" type="continuous">
+      <axis xyz="0 1 0" />
+      <parent link="${robot_namespace}/cable_link_${start_link}a" />
+      <child link="${robot_namespace}/cable_link_${start_link}b" />
+    </joint> -->
+  <joint name="firefly/cable_joint_8_aux" type="continuous">
+    <origin xyz="0 0 -0.1"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_link_7"/>
+    <child link="firefly/cable_joint_8_link"/>
+  </joint>
+  <link name="firefly/cable_joint_8_link">
+    <inertial>
+      <mass value="1e-14"/>
+      <inertia ixx="1e-14" ixy="0" ixz="0" iyy="1e-14" iyz="0" izz="1e-14"/>
+    </inertial>
+  </link>
+  <joint name="firefly/cable_joint_8" type="continuous">
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_joint_8_link"/>
+    <child link="firefly/cable_link_8"/>
+  </joint>
+  <link name="firefly/cable_link_8">
+    <origin xyz="0 0 -0.05"/>
+    <inertial>
+      <mass value="0.0005"/>
+      <inertia ixx="5e-6" ixy="0.0" ixz="0.0" iyy="5e-6" iyz="0.0" izz="5e-6"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.05"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.005"/>
+      </geometry>
+    </visual>
+    <!-- <collision>
+          <geometry>
+            <cylinder length="${link_length}" radius="${link_radius}"/>
+          </geometry>
+        </collision> -->
+  </link>
+  <!-- <joint name="${robot_namespace}/cable_joint_${start_link}a" type="continuous">
+      <xacro:insert_block name="origin" />
+      <axis xyz="1 0 0" />
+      <parent link="${parent}" />
+      <child link="${robot_namespace}/cable_link_${start_link}a" />
+    </joint>
+
+    <link name="${robot_namespace}/cable_link_${start_link}a">
+      <inertial>
+        <mass value="${link_mass}"/>
+        <xacro:insert_block name="link_inertia" />
+      </inertial>
+    </link>
+
+    <joint name="${robot_namespace}/cable_joint_${start_link}b" type="continuous">
+      <axis xyz="0 1 0" />
+      <parent link="${robot_namespace}/cable_link_${start_link}a" />
+      <child link="${robot_namespace}/cable_link_${start_link}b" />
+    </joint> -->
+  <joint name="firefly/cable_joint_9_aux" type="continuous">
+    <origin xyz="0 0 -0.1"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_link_8"/>
+    <child link="firefly/cable_joint_9_link"/>
+  </joint>
+  <link name="firefly/cable_joint_9_link">
+    <inertial>
+      <mass value="1e-14"/>
+      <inertia ixx="1e-14" ixy="0" ixz="0" iyy="1e-14" iyz="0" izz="1e-14"/>
+    </inertial>
+  </link>
+  <joint name="firefly/cable_joint_9" type="continuous">
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_joint_9_link"/>
+    <child link="firefly/cable_link_9"/>
+  </joint>
+  <link name="firefly/cable_link_9">
+    <origin xyz="0 0 -0.05"/>
+    <inertial>
+      <mass value="0.0005"/>
+      <inertia ixx="5e-6" ixy="0.0" ixz="0.0" iyy="5e-6" iyz="0.0" izz="5e-6"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.05"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.005"/>
+      </geometry>
+    </visual>
+    <!-- <collision>
+          <geometry>
+            <cylinder length="${link_length}" radius="${link_radius}"/>
+          </geometry>
+        </collision> -->
+  </link>
+  <joint name="firefly/load_cable_joint_aux" type="continuous">
+    <origin xyz="0 0 -0.1"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/cable_link_9"/>
+    <child link="firefly/load_cable_joint_link"/>
+  </joint>
+  <link name="firefly/load_cable_joint_link">
+    <inertial>
+      <mass value="1e-14"/>
+      <inertia ixx="1e-14" ixy="0" ixz="0" iyy="1e-14" iyz="0" izz="1e-14"/>
+    </inertial>
+  </link>
+  <joint name="firefly/load_cable_joint" type="continuous">
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.0"/>
+    <parent link="firefly/load_cable_joint_link"/>
+    <child link="firefly/load_link"/>
+  </joint>
+  <!-- <joint name="${namespace}/cable_load_joint" type="fixed">
+        <origin xyz="0 0 ${-link_length}"/>
+        <parent link="${robot_namespace}/cable_link_${start_link}b" />
+        <child link="${load_link_name}" />
+      </joint> -->
+  <link name="firefly/load_link">
     <inertial>
       <mass value="0.2"/>
       <inertia ixx="0.0002" ixy="0.0002" ixz="0.0002" iyy="0.0002" iyz="0.0" izz="0.0002"/>
